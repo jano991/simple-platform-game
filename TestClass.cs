@@ -9,3 +9,4 @@ namespace Assets.Src
     {
     }
 }
+class CHUJ { }
