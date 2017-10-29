@@ -7,7 +7,9 @@ public class test : MonoBehaviour
     public float GroundedDistanceFlag;
     public float RotationSpeed;
     public CharacterController controller;
-    
+
+
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -15,6 +17,7 @@ public class test : MonoBehaviour
 
     void Update()
     {
+
         Move();
         Debug.Log(Input.GetAxis("For-Back"));
     }
