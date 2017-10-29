@@ -10,3 +10,4 @@ namespace Assets.Src
     }
 }
 class CHUJ { }
+class DrugaP { }
