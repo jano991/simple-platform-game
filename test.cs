@@ -9,7 +9,6 @@ public class test : MonoBehaviour
     public CharacterController controller;
 
 
-
     void Start()
     {
         controller = GetComponent<CharacterController>();
