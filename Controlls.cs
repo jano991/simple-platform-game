@@ -64,9 +64,9 @@ public class Controlls : MonoBehaviour
 
 
     }
-    private int? GetMovementDirection()
+    private int GetMovementDirection()
     {
-        int? MovingForward = null;
+        int MovingForward = 0;
         if (Input.GetAxis("For-Back") > 0)
         {
             transform.Translate(Vector3.forward * Speed * Time.deltaTime);
@@ -77,8 +77,6 @@ public class Controlls : MonoBehaviour
             transform.Translate(Vector3.forward * Speed * Time.deltaTime * -1f);
             MovingForward = -1;
         }
-        if (Input.GetAxis("For-Back") == 0)
-           MovingForward = 0;
         return MovingForward;
     }
 }
