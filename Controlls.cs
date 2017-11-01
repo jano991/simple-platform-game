@@ -47,44 +47,45 @@ public class Controlls : MonoBehaviour
 
     private void Move()
     {
-        Debug.Log("jedzie");
         var isGrounded = IsGrounded();
         var isMovingForward = GetMovementDirection();
 
         if (isGrounded == false)
             Gravity();
-        if (isMovingForward == false)
+        if (isMovingForward == 1)
+        {
+            if (Input.GetAxis("Rotation") > 0)
+                transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime);
+            if (Input.GetAxis("Rotation") < 0)
+                transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime * -1f);
+        }
+        else if (isMovingForward == -1)
         {
             if (Input.GetAxis("Rotation") < 0)
                 transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime);
             if (Input.GetAxis("Rotation") > 0)
                 transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime * -1f);
-        } 
-        
-        if (Input.GetAxis("For-Back") > 0)
-            transform.Translate(Vector3.forward * Speed * Time.deltaTime);
-        if (Input.GetAxis("For-Back") < 0)
-            transform.Translate(Vector3.forward * Speed * Time.deltaTime * -1f);
-        if (Input.GetAxis("Rotation") > 0)
-            transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime);
-        if (Input.GetAxis("Rotation") < 0)
-            transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime * -1f);
-    }
-    private bool GetMovementDirection()
-    {
-        Vector3 movement;
-        Vector3 newpos;
-        bool MovingForward = true;
 
-        newpos = transform.position;
-        movement = (newpos - prevpos);
-
-        if (Vector3.Dot(fwd, movement) < 0)
-        {
-            MovingForward = false;
-            return MovingForward;
         }
 
+
+
+    }
+    private int? GetMovementDirection()
+    {
+        int? MovingForward = null;
+        if (Input.GetAxis("For-Back") > 0)
+        {
+            transform.Translate(Vector3.forward * Speed * Time.deltaTime);
+            MovingForward = 1;
+        }
+        if (Input.GetAxis("For-Back") < 0)
+        {
+            transform.Translate(Vector3.forward * Speed * Time.deltaTime * -1f);
+            MovingForward = -1;
+        }
+        if (Input.GetAxis("For-Back") == 0)
+           MovingForward = 0;
         return MovingForward;
     }
 }
