@@ -8,8 +8,6 @@ public class Controlls : MonoBehaviour
     public float GroundedDistanceFlag;
     public float RotationSpeed;
     public CharacterController controller;
-    public Vector3 prevpos;
-    public Vector3 fwd;
 
     // Use this for initialization
     void Start()
@@ -23,11 +21,6 @@ public class Controlls : MonoBehaviour
         Move();
     }
 
-    void LateUpdate()
-    {
-        prevpos = transform.position;
-        fwd = transform.forward;
-    }
     private bool IsGrounded()
     {
         bool isGrounded = false;
