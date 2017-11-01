@@ -8,6 +8,8 @@ public class Controlls : MonoBehaviour
     public float GroundedDistanceFlag;
     public float RotationSpeed;
     public CharacterController controller;
+    public Vector3 prevpos;
+    public Vector3 fwd;
 
     // Use this for initialization
     void Start()
@@ -21,6 +23,11 @@ public class Controlls : MonoBehaviour
         Move();
     }
 
+    void LateUpdate()
+    {
+        prevpos = transform.position;
+        fwd = transform.forward;
+    }
     private bool IsGrounded()
     {
         bool isGrounded = false;
@@ -38,13 +45,22 @@ public class Controlls : MonoBehaviour
         transform.position = new Vector3(pos.x, pos.y - gravityForce, pos.z);
     }
 
-    public void Move()
+    private void Move()
     {
+        Debug.Log("jedzie");
         var isGrounded = IsGrounded();
+        var isMovingForward = GetMovementDirection();
 
         if (isGrounded == false)
             Gravity();
-
+        if (isMovingForward == false)
+        {
+            if (Input.GetAxis("Rotation") < 0)
+                transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime);
+            if (Input.GetAxis("Rotation") > 0)
+                transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime * -1f);
+        } 
+        
         if (Input.GetAxis("For-Back") > 0)
             transform.Translate(Vector3.forward * Speed * Time.deltaTime);
         if (Input.GetAxis("For-Back") < 0)
@@ -53,5 +69,22 @@ public class Controlls : MonoBehaviour
             transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime);
         if (Input.GetAxis("Rotation") < 0)
             transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime * -1f);
+    }
+    private bool GetMovementDirection()
+    {
+        Vector3 movement;
+        Vector3 newpos;
+        bool MovingForward = true;
+
+        newpos = transform.position;
+        movement = (newpos - prevpos);
+
+        if (Vector3.Dot(fwd, movement) < 0)
+        {
+            MovingForward = false;
+            return MovingForward;
+        }
+
+        return MovingForward;
     }
 }
