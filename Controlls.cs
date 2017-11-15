@@ -3,11 +3,16 @@
 public class Controlls : MonoBehaviour
 {
 
-    public float Speed;
+    public float Speed = 0;
     public float GravityModifier;
     public float GroundedDistanceFlag;
     public float RotationSpeed;
+    public float MaxForspeed;
+    public float MaxBackspeed;
+    public float Acceleration;
+    public float Deceleration;
     public CharacterController controller;
+
 
     // Use this for initialization
     void Start()
@@ -59,6 +64,7 @@ public class Controlls : MonoBehaviour
             if (Input.GetAxis("Rotation") > 0)
                 transform.Rotate(Vector3.up * RotationSpeed * Time.deltaTime * -1f);
 
+
         }
 
 
@@ -67,16 +73,32 @@ public class Controlls : MonoBehaviour
     private int GetMovementDirection()
     {
         int MovingForward = 0;
-        if (Input.GetAxis("For-Back") > 0)
+        if (Input.GetAxis("For-Back") > 0 && (Speed < MaxForspeed))
         {
+            Speed = Speed + Acceleration * Time.deltaTime;
             transform.Translate(Vector3.forward * Speed * Time.deltaTime);
             MovingForward = 1;
         }
-        if (Input.GetAxis("For-Back") < 0)
+        else if (Input.GetAxis("For-Back") < 0 && (Speed > -MaxBackspeed))
         {
-            transform.Translate(Vector3.forward * Speed * Time.deltaTime * -1f);
+            Speed = Speed - Deceleration * Time.deltaTime;
+            transform.Translate(Vector3.forward * Speed * Time.deltaTime);
             MovingForward = -1;
         }
+        else
+        {
+            if (Speed < MaxForspeed + 1 && Speed > 0)
+                Speed = Speed - Deceleration * Time.deltaTime;
+            if (Speed < 0 && Speed > -MaxBackspeed - 1)
+                Speed = Speed + Deceleration * Time.deltaTime;
+            if (Speed > -0.3f && Speed < 0.3f)
+                Speed = 0;
+        }
+
         return MovingForward;
+    }
+    private void Accelerate()
+    {
+
     }
 }
